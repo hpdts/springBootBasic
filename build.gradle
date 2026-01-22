@@ -2,38 +2,55 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.7.RELEASE")
-    }
-}
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-
-jar {
-    baseName = 'springBoot'
-    version =  '0.1.0'
 }
 
 repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+group = 'com.example'
+version = '0.1.0'
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 
 dependencies {
     // tag::jetty[]
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
+    implementation('org.springframework.boot:spring-boot-starter-web:1.5.7.RELEASE') {
+        exclude module: 'spring-boot-starter-tomcat'
     }
-    compile("org.springframework.boot:spring-boot-starter-jetty")
+    implementation 'org.springframework.boot:spring-boot-starter-jetty:1.5.7.RELEASE'
     // end::jetty[]
     // tag::actuator[]
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:1.5.7.RELEASE'
     // end::actuator[]
-    testCompile("junit:junit")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:1.5.7.RELEASE'
+}
+
+tasks.register('run', JavaExec) {
+    mainClass = 'hello.Application'
+    classpath = sourceSets.main.runtimeClasspath
+    jvmArgs = [
+        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+        '--add-opens', 'java.base/java.lang.reflect=ALL-UNNAMED'
+    ]
+}
+
+tasks.withType(Test) {
+    jvmArgs = [
+        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+        '--add-opens', 'java.base/java.lang.reflect=ALL-UNNAMED'
+    ]
+}
+
+jar {
+    archiveBaseName = 'springBoot'
+    archiveVersion = '0.1.0'
 }

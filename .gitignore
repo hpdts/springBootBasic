@@ -1,0 +1,32 @@
+# Gradle
+build/
+.gradle/
+gradle/
+
+# IDE
+.idea/
+.vscode/
+.metals/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled files
+*.class
+*.jar
+*.war
+
+# Dependencies
+.m2/
